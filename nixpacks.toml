@@ -2,13 +2,15 @@
 nixPkgs = ["nodejs_22"]
 
 [phases.install]
-cmds = ["npm install --no-audit --no-fund"]
+cmds = ["NPM_CONFIG_PRODUCTION=false npm install --no-audit --no-fund"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["NITRO_PRESET=node-server npm run build"]
 
 [start]
 cmd = "npm run start"
 
 [variables]
 NITRO_PRESET = "node-server"
+HOST = "0.0.0.0"
+NODE_ENV = "production"

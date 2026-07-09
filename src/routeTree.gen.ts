@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiTrackVisitRouteImport } from './routes/api/track/visit'
 import { Route as ApiTrackDownloadRouteImport } from './routes/api/track/download'
 import { Route as ApiTrackAccessRequestRouteImport } from './routes/api/track/access-request'
@@ -30,6 +31,11 @@ const AdminRoute = AdminRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTrackVisitRoute = ApiTrackVisitRouteImport.update({
@@ -86,6 +92,7 @@ const ApiAdminDashboardRoute = ApiAdminDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/admin/dashboard': typeof ApiAdminDashboardRoute
   '/api/admin/downloads': typeof ApiAdminDownloadsRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/admin/dashboard': typeof ApiAdminDashboardRoute
   '/api/admin/downloads': typeof ApiAdminDownloadsRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
@@ -115,6 +123,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/admin/dashboard': typeof ApiAdminDashboardRoute
   '/api/admin/downloads': typeof ApiAdminDownloadsRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/api/health'
     | '/api/admin/dashboard'
     | '/api/admin/downloads'
     | '/api/admin/login'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/api/health'
     | '/api/admin/dashboard'
     | '/api/admin/downloads'
     | '/api/admin/login'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/api/health'
     | '/api/admin/dashboard'
     | '/api/admin/downloads'
     | '/api/admin/login'
@@ -174,6 +186,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  ApiHealthRoute: typeof ApiHealthRoute
   ApiAdminDashboardRoute: typeof ApiAdminDashboardRoute
   ApiAdminDownloadsRoute: typeof ApiAdminDownloadsRoute
   ApiAdminLoginRoute: typeof ApiAdminLoginRoute
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/track/visit': {
@@ -278,6 +298,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  ApiHealthRoute: ApiHealthRoute,
   ApiAdminDashboardRoute: ApiAdminDashboardRoute,
   ApiAdminDownloadsRoute: ApiAdminDownloadsRoute,
   ApiAdminLoginRoute: ApiAdminLoginRoute,
